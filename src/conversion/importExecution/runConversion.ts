@@ -201,8 +201,8 @@ function screenshotNameMatchesTestTitle(
     testTitle: string[]
 ): boolean {
     try {
-        const testTitleKey = getNativeTestIssueKey(testTitle[testTitle.length - 1], projectKey);
-        if (testTitleKey && screenshot.path.includes(testTitleKey)) {
+        const testTitleKeys = getNativeTestIssueKey(testTitle[testTitle.length - 1], projectKey);
+        if (testTitleKeys.some(k => screenshot.path.includes(k))) {
             return true;
         }
     } catch (error: unknown) {

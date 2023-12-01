@@ -122,7 +122,7 @@ describe("cypress preprocessing", () => {
 
     describe("getTestIssueKey", () => {
         it("should extract single test issue keys", () => {
-            expect(getNativeTestIssueKey("this is CYP-123 a test", "CYP")).to.eq("CYP-123");
+            expect(getNativeTestIssueKey("this is CYP-123 a test", "CYP")).to.eql(["CYP-123"]);
         });
 
         it("should log warnings for missing test issue keys", () => {
@@ -142,22 +142,8 @@ describe("cypress preprocessing", () => {
         });
 
         it("should log warnings for multiple test issue keys", () => {
-            expect(() =>
-                getNativeTestIssueKey("CYP-123 this is a CYP-456 test CYP-789", "CYP")
-            ).to.throw(
-                dedent(`
-                    Multiple test keys found in title of test: CYP-123 this is a CYP-456 test CYP-789
-                    The plugin cannot decide for you which one to use:
-
-                    it("CYP-123 this is a CYP-456 test CYP-789", () => {
-                        ^^^^^^^           ^^^^^^^      ^^^^^^^
-                      // ...
-                    });
-
-                    For more information, visit:
-                    - https://qytera-gmbh.github.io/projects/cypress-xray-plugin/section/guides/targetingExistingIssues/
-                `)
-            );
+            expect(getNativeTestIssueKey("CYP-123 this is a CYP-456 test CYP-789", "CYP"))
+                .to.eql(["CYP-123", "CYP-456", "CYP-789"])
         });
     });
 });

@@ -48,16 +48,18 @@ export class TestConverter {
         const xrayTests: IXrayTest[] = [];
         testRunData.forEach((testData: ITestRunData) => {
             try {
-                const issueKey = getNativeTestIssueKey(
+                const issueKeys = getNativeTestIssueKey(
                     testData.title,
                     this.options.jira.projectKey
                 );
-                const test: IXrayTest = this.getTest(
-                    testData,
-                    issueKey,
-                    this.getXrayEvidence(testData)
-                );
-                xrayTests.push(test);
+                for (const key of issueKeys) {
+                    const test: IXrayTest = this.getTest(
+                        testData,
+                        key,
+                        this.getXrayEvidence(testData)
+                    );
+                    xrayTests.push(test);
+                }
             } catch (error: unknown) {
                 logWarning(
                     dedent(`
