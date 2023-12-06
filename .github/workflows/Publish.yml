@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 18.x
           cache: "npm"
-          registry-url: https://registry.npmjs.org/
+          registry-url: "https://npm.pkg.github.com"
       - run: npm ci
       # Run tests again to ensure quality.
       - run: npm test
